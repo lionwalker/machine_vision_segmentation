@@ -33,6 +33,28 @@ By the end of this lab, learn first end-to-end pipeline from a camera image to o
 
 5. Task A5 – Contours, Area, and Centroid
 
+### Part B – Real Image
+
+1. Capture at least 4 new real images with paper markers or tiles on the table:
+
+    - one image with the black paper markers
+
+    - other with mosaic tiles all of the same dark color
+
+    - another with mosaic tiles with mixed dark colors
+
+    - and one with mosaic tiles with mixed bright and dark colors
+
+2. Apply the same pipeline (use your code of part A) to each image:
+
+    - Load image → preprocessing (if needed) → thresholding → morphology → contours → centroids → annotation.
+
+3.Check:
+    - Does the pipeline still work?
+    - Is preprocessing (filtering) needed?
+    - Are morphology operations needed?
+
+    
 ### Discussion:
 
 - Q1: Which thresholding method gave the most stable results across your images?
