@@ -25,7 +25,13 @@ By the end of this lab, learn first end-to-end pipeline from a camera image to o
 
 1. Task A1 - Create Simulated Scenario
 
+![](images/robodk_snapshot.png)
+
+In RoboDK, table holes may be detected as objects, so place a white sheet of paper on the table. Use the same scenario from the first assignment with this addition.
+
 2. Task A2 - Capture image from RoboDK Simulated Camera
+
+![](images/robodk_imgN.png)
 
 3. Task A3 - Thresholding
 
