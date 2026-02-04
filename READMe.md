@@ -39,11 +39,17 @@ By the end of this lab, learn first end-to-end pipeline from a camera image to o
 
     - one image with the black paper markers
 
+    ![](images/capture_img_papers.png)
+
     - other with mosaic tiles all of the same dark color
 
-    - another with mosaic tiles with mixed dark colors
+    - Another with mosaic tiles with mixed dark colors
+
+    ![](images/capture_img_dark_tiles.png)
 
     - and one with mosaic tiles with mixed bright and dark colors
+
+    ![](images/capture_img_light_tiles.png)
 
 2. Apply the same pipeline (use your code of part A) to each image:
 
@@ -54,7 +60,7 @@ By the end of this lab, learn first end-to-end pipeline from a camera image to o
     - Is preprocessing (filtering) needed?
     - Are morphology operations needed?
 
-    
+
 ### Discussion:
 
 - Q1: Which thresholding method gave the most stable results across your images?
