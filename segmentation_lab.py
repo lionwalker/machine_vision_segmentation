@@ -1,96 +1,89 @@
 import cv2
-import matplotlib.pyplot as plt
 import numpy as np
+import matplotlib.pylab as plt
 
 
-INPUT_FILE = "images/robodk_imgN.png"
-OUTPUT_FILE = "images/robodk_imgN_annotated.png"
+def apply_threshold(
+    img_path,
+    mode="normal",
+    th_value=128,
+    invert=True,
+    use_otsu=False,
+    min_area=500,
+):
+    img=cv2.imread(img_path, cv2.IMREAD_GRAYSCALE)
 
-img = cv2.imread(INPUT_FILE, cv2.IMREAD_GRAYSCALE)
+    if img is None:
+        print("Could not read image")
+        return
+    
+    if mode == "light_tiles":
+        clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8,8))
+        img_proc = clahe.apply(img)
 
-# hist_cv = cv2.calcHist([img], [0], None, [256], [0, 256])
 
-_, th_binary = cv2.threshold(img, 250, 255, cv2.THRESH_BINARY_INV)
+        th = cv2.adaptiveThreshold(img_proc, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY_INV, 31, 5)
 
-num_labels, labeled_img, stats, centroids = cv2.connectedComponentsWithStats(
-    th_binary, connectivity=4, ltype=cv2.CV_32S)
-print(f'Found {num_labels-1} objects')
-for (cx, cy) in centroids[1:]:
-    cx, cy = int(cx), int(cy)
-    print(f'Centroid: ({cx},{cy})')
+    else:
+        if invert == True:
+            t_type = cv2.THRESH_BINARY_INV
+        else:
+            t_type = cv2.THRESH_BINARY
 
-i = 1
-for (p1x, p1y, size_x, size_y, _) in stats[1:]:
-    OBJ1_LABEL = f"({p1x},{p1y})"
-    OBJ1_RECT_COORDS = (p1x, p1y, p1x+size_x, p1y+size_y)
-    OBJ1_COLOR = (0, 0, 255)
-    OBJ1_TEXT_COORDS = (p1x, p1y-10)
 
-    cv2.rectangle(img, (p1x, p1y), (p1x+size_x, p1y+size_y), OBJ1_COLOR, 2)
-    cv2.putText(
-        img,
-        OBJ1_LABEL,
-        OBJ1_TEXT_COORDS,
-        cv2.FONT_HERSHEY_SIMPLEX,
-        0.5,
-        (0, 0, 0),
-        1,
-        cv2.LINE_AA
+        if use_otsu:
+            otsu_val, th = cv2.threshold(img, 0, 255, t_type | cv2.THRESH_OTSU)
+        else:
+            _, th = cv2.threshold(img, th_value, 255, t_type)
+
+    kernel = np.ones((3,3), np.uint8)
+    th = cv2.morphologyEx(th, cv2.MORPH_OPEN, kernel, iterations=1)
+    th = cv2.morphologyEx(th, cv2.MORPH_CLOSE, kernel, iterations=1)
+
+    num_labels, labels, stats, centroids = cv2.connectedComponentsWithStats(th, connectivity=4)
+
+    annotated = cv2.cvtColor(img, cv2.COLOR_GRAY2BGR)
+
+    objects = 0
+
+    for label in range(1, num_labels):
+        x, y, w, h, area = stats[label]
+
+            
+        cx, cy = centroids[label]
+        cx, cy = int(cx), int(cy)
+
+        objects += 1
+
+        cv2.rectangle(annotated, (x, y), (x + w, y + h), (128, 0, 128), 2)
+
+        cv2.circle(annotated, (cx, cy), 4, (0, 0, 255), -1)
+
+        label_text = f"{x}, {y}"
+
+        cv2.putText(annotated, label_text, (x, max(15, y - 5)), cv2.FONT_HERSHEY_SIMPLEX, 0.4,  (0,0,255), 1, cv2.LINE_AA)
+
+
+    out_path = img_path.replace(".jpg", "_annotated.jpg")
+    cv2.imwrite(out_path, annotated)
+    print("Saved:/n", out_path)
+
+
+image_settings = [
+    ("images/capture_img_light_tiles.jpg", "light_tiles", None, None, None),
+    ("images/capture_img_dark_tiles.jpg", "normal", 0, True, True),
+    ("images/capture_img_papers.jpg", "normal", 0, True, True),
+    ("images/capture_img_mix_tiles.jpg", "light_tiles", None, None, None),
+    ("images/robodk_imgN.jpg", "normal", 0, True, True),
+
+]
+
+for img_path, mode, th_value, invert, use_otsu in image_settings:
+    apply_threshold(
+        img_path,
+        mode=mode,
+        th_value=th_value if th_value is not None else 128,
+        invert=invert if invert is not None else True,
+        use_otsu=use_otsu if use_otsu is not None else False,
+        min_area=500,
     )
-
-    i += 1
-
-    print(
-        f'Object inside the rectangle with coordinates ({p1x},{p1y}), ({p1x+size_x}, {p1y+size_y})')
-
-
-cv2.imwrite(OUTPUT_FILE, img)
-print(f"Successfully saved annotated image to {OUTPUT_FILE}")
-
-'''
-__, th_otsu = cv2.threshold(img, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
-th_mean = cv2.adaptiveThreshold(
-    img, 255,
-    cv2.ADAPTIVE_THRESH_MEAN_C,
-    cv2.THRESH_BINARY,
-    blockSize=5,
-    C=2)
-th_gauss = cv2.adaptiveThreshold(
-    img, 255,
-    cv2.ADAPTIVE_THRESH_GAUSSIAN_C,
-    cv2.THRESH_BINARY,
-    blockSize=5,
-    C=2)
-
-plt.figure(figsize=(12, 6))
-
-plt.subplot(3, 2, 1)
-plt.imshow(img, cmap='gray', vmin=0, vmax=255)
-plt.title('Image')
-
-plt.subplot(3, 2, 2)
-plt.vlines(range(256), 0, hist_cv)
-plt.title('Histogram')
-plt.xlabel('Intensity')
-plt.ylabel('Frequency')
-plt.xlim([0, 256])
-
-plt.subplot(3, 2, 3)
-plt.imshow(th_binary, cmap='gray', vmin=0, vmax=255)
-plt.title('Binary Thresholding')
-
-plt.subplot(3, 2, 4)
-plt.imshow(th_otsu, cmap='gray', vmin=0, vmax=255)
-plt.title('Otsu Thresholding')
-
-plt.subplot(3, 2, 5)
-plt.imshow(th_mean, cmap='gray', vmin=0, vmax=255)
-plt.title('Adaptive Thresholding (Mean)')
-
-plt.subplot(3, 2, 6)
-plt.imshow(th_gauss, cmap='gray', vmin=0, vmax=255)
-plt.title('Adaptive Thresholding (Gauss)')
-
-plt.tight_layout()
-plt.show()
-'''
