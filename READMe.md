@@ -1,19 +1,6 @@
 ## Lab assignment: Segmentation
 ### Week 1( 02/02/2026)
 
-### Lab Overview
-
-A. Take a simulated image from RoboDK and perform segmentation.
-
-- Apply thresholding
-- Clean up binary images using morphological operations
-- Extract basic object features (contours, area, centroid)
-- Annotate and visualize detected object positions on the image
-
-B. Capture a real image on the scenario (tiles on the table) and perform segmentation.
-
-- By the end of this lab, learn first end-to-end pipeline from a camera image to object locations – a building block for vision-based pick-and-place.
-
 ### Learning Goals
 
 - Choose and apply appropriate thresholding methods for a given image.
@@ -24,7 +11,6 @@ B. Capture a real image on the scenario (tiles on the table) and perform segment
 ## Part A - Simulated Image
 
 #### 1. Task A1 - Create Simulated Scenario
-
 
 - A white sheet of paper was placed on the table to avoid detecting the table holes as objects during image segmentation.
 
