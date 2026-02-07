@@ -20,6 +20,8 @@
 
 ![](images/robodk_imgN.jpg)
 
+#### Histogram image
+
 ![](images/Histogram_Images/RoboDK_station_histogram.png)
 
 #### 3. Task A3 - Thresholding
@@ -58,13 +60,13 @@
 
 #### - Histogram images
 
-![](images/Histogram_Images/Paper_cuts_histogram.png)
+1. ![](images/Histogram_Images/Paper_cuts_histogram.png)
 
-![](images/Histogram_Images/Dark_tiles_histogram.png)
+2. ![](images/Histogram_Images/Dark_tiles_histogram.png)
 
-![](images/Histogram_Images/Mixed_tiles_histogram.png)
+3. ![](images/Histogram_Images/Mixed_tiles_histogram.png)
 
-![](images/Histogram_Images/Light_tiles_histogram.png)
+4. ![](images/Histogram_Images/Light_tiles_histogram.png)
 
 #### 2. Apply the same pipeline (use your code of part A) to each image:
 
