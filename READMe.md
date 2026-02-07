@@ -129,11 +129,7 @@ Q4: How would you change the lighting or camera setup in the real lab to make se
 ## Findings 
 
 1. The process was easy to set up and follow.
-
 2. Simulated images were processed very quickly.
-
 3. Real images took a bit longer because filtering and morphology were needed.
-
 4. Overall, the pipeline processes images fast.
-
 5. The method worked well for multiple objects.
