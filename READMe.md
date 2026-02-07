@@ -34,7 +34,7 @@ B. Capture a real image on the scenario (tiles on the table) and perform segment
 
 ![](images/robodk_imgN.jpg)
 
-![](images/Histogram Images/RoboDK_station_histogram.png)
+![](images/Histogram_Images/RoboDK_station_histogram.png)
 
 #### 3. Task A3 - Thresholding
 
@@ -72,13 +72,13 @@ B. Capture a real image on the scenario (tiles on the table) and perform segment
 
 #### - Histogram images
 
-![](images/Histogram Images/Paper_cuts_histogram.png)
+![](images/Histogram_Images/Paper_cuts_histogram.png)
 
-![](images/Histogram Images/Dark_tiles_histogram.png)
+![](images/Histogram_Images/Dark_tiles_histogram.png)
 
-![](images/Histogram Images/Mixed_tiles_histogram.png)
+![](images/Histogram_Images/Mixed_tiles_histogram.png)
 
-![](images/Histogram Images/Light_tiles_histogram.png)
+![](images/Histogram_Images/Light_tiles_histogram.png)
 
 #### 2. Apply the same pipeline (use your code of part A) to each image:
 
