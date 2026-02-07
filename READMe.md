@@ -73,8 +73,11 @@ B. Capture a real image on the scenario (tiles on the table) and perform segment
 #### - Histogram images
 
 ![](images/Histogram Images/Paper_cuts_histogram.png)
+
 ![](images/Histogram Images/Dark_tiles_histogram.png)
+
 ![](images/Histogram Images/Mixed_tiles_histogram.png)
+
 ![](images/Histogram Images/Light_tiles_histogram.png)
 
 #### 2. Apply the same pipeline (use your code of part A) to each image:
